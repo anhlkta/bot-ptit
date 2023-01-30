@@ -1,5 +1,4 @@
 # !pip install schedule
-
 from requests.sessions import default_headers
 import schedule
 import time
@@ -7,12 +6,14 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import socket
+
 socket.getaddrinfo('127.0.0.1', 8080)
 baseUrl = "https://portal.ptit.edu.vn/category/tin-tuc"
-global historys # Lưu lại các tin đã đọc trước đó
+
 historys = [["#"]] # Khởi tạo mảng
 s = requests.Session() # Store sesstion lại
-def Getdata(historys):
+def Getdata():
+    global historys 
     response = s.get(baseUrl, timeout=5) # Thực hiện Get request
     soup = BeautifulSoup(response.content, 'html.parser') # Lấy nội dung html
     titles = soup.findAll("div",class_="post-title") # Lấy tất cả các tiêu đề
@@ -32,12 +33,14 @@ def Getdata(historys):
                 break # Nếu tin mới bằng tin cũ đầu tiên thì dừng
         historys = historys_pre # Gán lại tin cũ bằng tin mới
     return ans 
-  
-def Solve():
-    data = Getdata(historys) # Lấy dữ liệu
-    print(data) # In ra các header
 
-schedule.every(1).minutes.do(Solve)
-while True:
-    schedule.run_pending() 
-    time.sleep(1) 
+def Sol():
+    data = Getdata() # Lấy dữ liệu
+    if data != []:
+        print(data) # In ra các header
+        
+def Solve():
+    schedule.every(10).seconds.do(Sol) # Thực hiện hàm Solve mỗi 10 giây
+    while True:
+        schedule.run_pending() 
+        time.sleep(1) 

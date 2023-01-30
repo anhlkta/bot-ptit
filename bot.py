@@ -1,8 +1,12 @@
-# pip install python-telegram-bot
+# pip install python-telegram-bot = 13.7
+# pip install schedule
+# pip install requests
+# pip install beautifulsoup4
 from telegram.ext import *
-
+import News
 import constants as keys
-
+import time
+import schedule
 print('Starting up bot...')
 
 
@@ -20,6 +24,17 @@ def help_command(update, context):
 def custom_command(update, context):
     update.message.reply_text('This is a custom command, you can add whatever text you want here.')
 
+def news_command(update, context):
+    news = News.Getdata()
+    if news == []:
+        update.message.reply_text('Không có tin mới nào cả :<')
+    else:
+        for x in range(0, len(news)):
+            message = news[x]
+            update.message.reply_text(message[0] + "\n" 
+                + message[1] + "\n" + 'from Hung dep trai')
+        
+
 
 def handle_response(text) -> str:
     if 'hello' in text:
@@ -27,7 +42,8 @@ def handle_response(text) -> str:
 
     if 'how are you' in text:
         return 'I\'m good!'
-        
+    if 'news' in text:
+        return 'news'
     return 'I don\'t understand'
 
 
@@ -43,8 +59,8 @@ def handle_message(update, context):
     # React to group messages only if users mention the bot directly
     if message_type == 'group':
         # Replace with your bot username
-        if '@bot19292bot' in text:
-            new_text = text.replace('@bot19292bot', '').strip()
+        if '@toiyeuptit_bot' in text:
+            new_text = text.replace('@toiyeuptit_bot', '').strip()
             response = handle_response(new_text)
     else:
         response = handle_response(text)
@@ -67,7 +83,8 @@ if __name__ == '__main__':
     dp.add_handler(CommandHandler('start', start_command))
     dp.add_handler(CommandHandler('help', help_command))
     dp.add_handler(CommandHandler('custom', custom_command))
-
+    dp.add_handler(CommandHandler("news", news_command))
+    
     # Messages
     dp.add_handler(MessageHandler(Filters.text, handle_message))
 
@@ -77,3 +94,7 @@ if __name__ == '__main__':
     # Run the bot
     updater.start_polling(1.0)
     updater.idle()
+    schedule.every(10).seconds.do(news_command) # Thực hiện hàm Solve mỗi 10 giây
+    while True:
+        schedule.run_pending() 
+        time.sleep(1) 
