@@ -96,9 +96,9 @@ class scheduleprint():
             time.sleep(1) # The number of seconds the Python program should pause execution.
 
 
-def send_message():
-    text = "hello"
-    chat_id = "939184869"
+def send_message(chat_id, text):
+    # text = "hello"
+    # chat_id = "939184869"
     token = keys.API_KEY
     url = "https://api.telegram.org/bot" + token + "/sendmessage" + "?chat_id=" + str(chat_id) + "&text=" + text
     results = requests.get(url)
@@ -129,7 +129,7 @@ if __name__ == '__main__':
     # updater.idle()
 
     # # send message 
-    schedule.every(10).seconds.do(send_message()) # Thực hiện hàm send_message mỗi 10 giây
+    schedule.every(10).seconds.do(send_message, "939184869", "Hello") # Thực hiện hàm send_message mỗi 10 giây
     while True:
         schedule.run_pending() 
         time.sleep(1)
