@@ -7,6 +7,7 @@ import News
 import constants as keys
 import time
 import schedule
+import requests
 print('Starting up bot...')
 
 
@@ -39,7 +40,6 @@ def news_command(update, context):
 def handle_response(text) -> str:
     if 'hello' in text:
         return 'Hey!'
-
     if 'how are you' in text:
         return 'I\'m good!'
     if 'news' in text:
@@ -74,27 +74,62 @@ def error(update, context):
     print(f'Update {update} caused error {context.error}')
 
 
+
+class scheduleprint():
+
+    def printprogress(self):
+        print("Start of Processing")
+        print("Processing Complete")
+
+    def schedule_a_print_job(self, type="Secs", interval=5):
+
+        if type == "Secs": # Fed from the function paramaters
+            schedule.every(interval).seconds.do(self.printprogress())
+            # Including the parentheses after printprogess will throw an error as you cant run that method directly from there you can only call it.
+
+        if type == "Mins": # Fed from the function paramaters
+            schedule.every(interval).minutes.do(self.printprogress)
+            # Including the parentheses  after printprogess will throw an error as you cant run that method directly from there you can only call it.
+
+        while True:
+            schedule.run_pending()
+            time.sleep(1) # The number of seconds the Python program should pause execution.
+
+
+def send_message():
+    text = "hello"
+    chat_id = "939184869"
+    token = keys.API_KEY
+    url = "https://api.telegram.org/bot" + token + "/sendmessage" + "?chat_id=" + str(chat_id) + "&text=" + text
+    results = requests.get(url)
+    print(results.json())
+
+def test():
+    print("Hello")
 # Run the program
 if __name__ == '__main__':
-    updater = Updater(keys.API_KEY, use_context=True)
-    dp = updater.dispatcher
-
-    # Commands
-    dp.add_handler(CommandHandler('start', start_command))
-    dp.add_handler(CommandHandler('help', help_command))
-    dp.add_handler(CommandHandler('custom', custom_command))
-    dp.add_handler(CommandHandler("news", news_command))
+    # updater = Updater(keys.API_KEY, use_context=True)
+    # dp = updater.dispatcher
+    # for i in range(0, 10):
+    #     send_message(939184869, "Hello")
+    # # Commands
+    # dp.add_handler(CommandHandler('start', start_command))
+    # dp.add_handler(CommandHandler('help', help_command))
+    # dp.add_handler(CommandHandler('custom', custom_command))
+    # dp.add_handler(CommandHandler("news", news_command))
     
-    # Messages
-    dp.add_handler(MessageHandler(Filters.text, handle_message))
+    # # Messages
+    # dp.add_handler(MessageHandler(Filters.text, handle_message))
 
-    # Log all errors
-    dp.add_error_handler(error)
+    # # Log all errors
+    # dp.add_error_handler(error)
 
-    # Run the bot
-    updater.start_polling(1.0)
-    updater.idle()
-    schedule.every(10).seconds.do(news_command) # Thực hiện hàm Solve mỗi 10 giây
+    # # Run the bot
+    # updater.start_polling(1.0)
+    # updater.idle()
+
+    # # send message 
+    schedule.every(10).seconds.do(send_message()) # Thực hiện hàm send_message mỗi 10 giây
     while True:
         schedule.run_pending() 
-        time.sleep(1) 
+        time.sleep(1)
