@@ -96,6 +96,17 @@ class scheduleprint():
             time.sleep(1) # The number of seconds the Python program should pause execution.
 
 
+
+def Auto_send_message():
+    Datas = News.Getdata()
+    if Datas == []:
+        print("Không có tin mới nào cả :<")
+    else:
+        for data in Datas:
+            message = "Có tin mới: " + data[1] + "\n" + data[0] + "\n" + 'from Hung dep trai'
+            send_message(939184869, str(message))
+
+
 def send_message(chat_id, text):
     # text = "hello"
     # chat_id = "939184869"
@@ -105,7 +116,8 @@ def send_message(chat_id, text):
     print(results.json())
 
 def test():
-    print("Hello")
+    data = News.Getdata()
+    print(str(data))
 # Run the program
 if __name__ == '__main__':
     # updater = Updater(keys.API_KEY, use_context=True)
@@ -129,7 +141,8 @@ if __name__ == '__main__':
     # updater.idle()
 
     # # send message 
-    schedule.every(10).seconds.do(send_message, "939184869", "Hello") # Thực hiện hàm send_message mỗi 10 giây
+
+    schedule.every(10).seconds.do(Auto_send_message) # Thực hiện hàm send_message mỗi 10 giây
     while True:
-        schedule.run_pending() 
+        schedule.run_pending()
         time.sleep(1)
