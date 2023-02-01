@@ -38,6 +38,7 @@ def Sol():
     data = Getdata() # Lấy dữ liệu
     if data != []:
         print(data) # In ra các header
+    return data
         
 def Solve():
     schedule.every(10).seconds.do(Sol) # Thực hiện hàm Solve mỗi 10 giây
