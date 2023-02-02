@@ -104,7 +104,7 @@ def Auto_send_message():
     else:
         for data in Datas:
             message = "Có tin mới: " + data[1] + "\n" + data[0] + "\n" + 'from Hung dep trai'
-            send_message(939184869, str(message))
+            send_message("-1001797670157", str(message))
 
 
 def send_message(chat_id, text):

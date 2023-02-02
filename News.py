@@ -31,8 +31,10 @@ def Getdata():
                 ans.append(i) # Thêm tin mới vào kết quả
             else:
                 break # Nếu tin mới bằng tin cũ đầu tiên thì dừng
+        if historys == [["#"]]:
+            return []
         historys = historys_pre # Gán lại tin cũ bằng tin mới
-    return ans 
+    return ans
 
 def Sol():
     data = Getdata() # Lấy dữ liệu
