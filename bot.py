@@ -74,29 +74,6 @@ def error(update, context):
     print(f'Update {update} caused error {context.error}')
 
 
-
-class scheduleprint():
-
-    def printprogress(self):
-        print("Start of Processing")
-        print("Processing Complete")
-
-    def schedule_a_print_job(self, type="Secs", interval=5):
-
-        if type == "Secs": # Fed from the function paramaters
-            schedule.every(interval).seconds.do(self.printprogress())
-            # Including the parentheses after printprogess will throw an error as you cant run that method directly from there you can only call it.
-
-        if type == "Mins": # Fed from the function paramaters
-            schedule.every(interval).minutes.do(self.printprogress)
-            # Including the parentheses  after printprogess will throw an error as you cant run that method directly from there you can only call it.
-
-        while True:
-            schedule.run_pending()
-            time.sleep(1) # The number of seconds the Python program should pause execution.
-
-
-
 def Auto_send_message():
     Datas = News.Getdata()
     if Datas == []:
@@ -115,9 +92,12 @@ def send_message(chat_id, text):
     results = requests.get(url)
     print(results.json())
 
+
 def test():
     data = News.Getdata()
     print(str(data))
+
+
 # Run the program
 if __name__ == '__main__':
     # updater = Updater(keys.API_KEY, use_context=True)

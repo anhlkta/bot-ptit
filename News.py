@@ -31,8 +31,8 @@ def Getdata():
                 ans.append(i) # Thêm tin mới vào kết quả
             else:
                 break # Nếu tin mới bằng tin cũ đầu tiên thì dừng
-        if historys == [["#"]]:
-            return []
+        if historys == [["#"]]: # Nếu tin cũ là mảng mới khởi tạo
+            return [] # Trả về mảng rỗng
         historys = historys_pre # Gán lại tin cũ bằng tin mới
     return ans
 
