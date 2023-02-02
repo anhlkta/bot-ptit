@@ -141,7 +141,6 @@ if __name__ == '__main__':
     # updater.idle()
 
     # # send message 
-
     schedule.every(10).seconds.do(Auto_send_message) # Thực hiện hàm send_message mỗi 10 giây
     while True:
         schedule.run_pending()
